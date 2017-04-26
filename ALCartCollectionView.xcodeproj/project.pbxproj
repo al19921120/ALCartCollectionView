@@ -7,15 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		89E8544C1EB051C6004D602E /* ALCartCollectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E8544B1EB051C6004D602E /* ALCartCollectionHeaderView.m */; };
 		89F06D7C1EAF3D6200CC724D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F06D7B1EAF3D6200CC724D /* main.m */; };
 		89F06D7F1EAF3D6200CC724D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F06D7E1EAF3D6200CC724D /* AppDelegate.m */; };
 		89F06D821EAF3D6200CC724D /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F06D811EAF3D6200CC724D /* ViewController.m */; };
 		89F06D851EAF3D6200CC724D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89F06D831EAF3D6200CC724D /* Main.storyboard */; };
 		89F06D871EAF3D6200CC724D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 89F06D861EAF3D6200CC724D /* Assets.xcassets */; };
 		89F06D8A1EAF3D6200CC724D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 89F06D881EAF3D6200CC724D /* LaunchScreen.storyboard */; };
+		89F06D941EAF3D8800CC724D /* ALCartCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F06D931EAF3D8800CC724D /* ALCartCollectionViewCell.m */; };
+		89F06D971EAF3D9300CC724D /* ALCartCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F06D961EAF3D9300CC724D /* ALCartCollectionView.m */; };
+		89F06D9A1EAF3DAB00CC724D /* ALCartCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F06D991EAF3DAB00CC724D /* ALCartCollectionViewLayout.m */; };
+		89F06D9D1EAF3DD100CC724D /* ALStringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F06D9C1EAF3DD100CC724D /* ALStringUtils.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		89E8544A1EB051C6004D602E /* ALCartCollectionHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALCartCollectionHeaderView.h; path = ALCartCollectionView/ALCartCollectionHeaderView.h; sourceTree = "<group>"; };
+		89E8544B1EB051C6004D602E /* ALCartCollectionHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALCartCollectionHeaderView.m; path = ALCartCollectionView/ALCartCollectionHeaderView.m; sourceTree = "<group>"; };
 		89F06D771EAF3D6200CC724D /* ALCartCollectionView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ALCartCollectionView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		89F06D7B1EAF3D6200CC724D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		89F06D7D1EAF3D6200CC724D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -26,6 +33,14 @@
 		89F06D861EAF3D6200CC724D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		89F06D891EAF3D6200CC724D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89F06D8B1EAF3D6200CC724D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		89F06D921EAF3D8800CC724D /* ALCartCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALCartCollectionViewCell.h; path = ALCartCollectionView/ALCartCollectionViewCell.h; sourceTree = "<group>"; };
+		89F06D931EAF3D8800CC724D /* ALCartCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALCartCollectionViewCell.m; path = ALCartCollectionView/ALCartCollectionViewCell.m; sourceTree = "<group>"; };
+		89F06D951EAF3D9300CC724D /* ALCartCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALCartCollectionView.h; path = ALCartCollectionView/ALCartCollectionView.h; sourceTree = "<group>"; };
+		89F06D961EAF3D9300CC724D /* ALCartCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALCartCollectionView.m; path = ALCartCollectionView/ALCartCollectionView.m; sourceTree = "<group>"; };
+		89F06D981EAF3DAB00CC724D /* ALCartCollectionViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALCartCollectionViewLayout.h; path = ALCartCollectionView/ALCartCollectionViewLayout.h; sourceTree = "<group>"; };
+		89F06D991EAF3DAB00CC724D /* ALCartCollectionViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALCartCollectionViewLayout.m; path = ALCartCollectionView/ALCartCollectionViewLayout.m; sourceTree = "<group>"; };
+		89F06D9B1EAF3DD100CC724D /* ALStringUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALStringUtils.h; path = ALCartCollectionView/ALStringUtils.h; sourceTree = "<group>"; };
+		89F06D9C1EAF3DD100CC724D /* ALStringUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALStringUtils.m; path = ALCartCollectionView/ALStringUtils.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +73,7 @@
 		89F06D791EAF3D6200CC724D /* ALCartCollectionView */ = {
 			isa = PBXGroup;
 			children = (
+				89F06D911EAF3D6600CC724D /* ALCartCollectionView */,
 				89F06D7D1EAF3D6200CC724D /* AppDelegate.h */,
 				89F06D7E1EAF3D6200CC724D /* AppDelegate.m */,
 				89F06D801EAF3D6200CC724D /* ViewController.h */,
@@ -77,6 +93,23 @@
 				89F06D7B1EAF3D6200CC724D /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		89F06D911EAF3D6600CC724D /* ALCartCollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				89F06D951EAF3D9300CC724D /* ALCartCollectionView.h */,
+				89F06D961EAF3D9300CC724D /* ALCartCollectionView.m */,
+				89E8544A1EB051C6004D602E /* ALCartCollectionHeaderView.h */,
+				89E8544B1EB051C6004D602E /* ALCartCollectionHeaderView.m */,
+				89F06D921EAF3D8800CC724D /* ALCartCollectionViewCell.h */,
+				89F06D931EAF3D8800CC724D /* ALCartCollectionViewCell.m */,
+				89F06D981EAF3DAB00CC724D /* ALCartCollectionViewLayout.h */,
+				89F06D991EAF3DAB00CC724D /* ALCartCollectionViewLayout.m */,
+				89F06D9B1EAF3DD100CC724D /* ALStringUtils.h */,
+				89F06D9C1EAF3DD100CC724D /* ALStringUtils.m */,
+			);
+			name = ALCartCollectionView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -150,8 +183,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				89F06D821EAF3D6200CC724D /* ViewController.m in Sources */,
+				89F06D9A1EAF3DAB00CC724D /* ALCartCollectionViewLayout.m in Sources */,
 				89F06D7F1EAF3D6200CC724D /* AppDelegate.m in Sources */,
+				89F06D9D1EAF3DD100CC724D /* ALStringUtils.m in Sources */,
+				89F06D971EAF3D9300CC724D /* ALCartCollectionView.m in Sources */,
 				89F06D7C1EAF3D6200CC724D /* main.m in Sources */,
+				89E8544C1EB051C6004D602E /* ALCartCollectionHeaderView.m in Sources */,
+				89F06D941EAF3D8800CC724D /* ALCartCollectionViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -298,6 +336,7 @@
 				89F06D901EAF3D6200CC724D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
