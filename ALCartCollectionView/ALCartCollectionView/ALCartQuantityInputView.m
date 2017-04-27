@@ -21,6 +21,7 @@
 
 @implementation ALCartQuantityInputView
 
+#pragma mark - init
 
 - (instancetype)initWithFrame:(CGRect)frame {
     
@@ -36,7 +37,7 @@
     
 }
 
-#pragma mark - init
+
 
 - (void)initUI {
     

@@ -24,13 +24,19 @@ static NSString *kvoKey = @"curValue";
 
 @end
 
-@implementation ALCartCollectionView
+@implementation ALCartCollectionView {
+    
+    ALCartQuantityInputView *_inputView;
+    
+}
 
 #pragma mark - dealloc
 
 - (void)dealloc {
     
-    [self removeObserver:self forKeyPath:kvoKey];
+    if (_inputView) {
+        [_inputView removeObserver:self forKeyPath:kvoKey];
+    }
     
 }
 
@@ -103,14 +109,15 @@ static NSString *kvoKey = @"curValue";
     if ([kind isEqualToString:UICollectionElementKindSectionFooter]) {
         
         ALCartQuantityView *temp = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:QuantityViewID forIndexPath:indexPath];
-        NSLog(@"\n%ld\n", _curQuantity);
+
         temp.quantityInputView.delegate = _quantityDelegate;
         temp.quantityInputView.maxValue = _maxQuantity;
         temp.quantityInputView.minValue = _minQuantity;
         temp.quantityInputView.curValue = _curQuantity;
         temp.lab.text = @"数量";
-        NSLog(@"\n%ld\n", _curQuantity);
+
         [temp.quantityInputView addObserver:self forKeyPath:kvoKey options:NSKeyValueObservingOptionNew context:nil];
+        _inputView = temp.quantityInputView;
         
         reusableView = temp;
     }
