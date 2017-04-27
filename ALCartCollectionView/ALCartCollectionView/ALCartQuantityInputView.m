@@ -21,6 +21,10 @@
 
 @implementation ALCartQuantityInputView
 
+- (void)dealloc {
+    
+}
+
 #pragma mark - init
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -320,6 +324,10 @@
     }
     
     _curValue = curValue;
+    if ([self.dataDelegate respondsToSelector:@selector(alCartQuantityInputView:didChangeValue:)]) {
+        [self.dataDelegate performSelector:@selector(alCartQuantityInputView:didChangeValue:) withObject:@(_curValue)];
+    }
+    
     [_btnValue setTitle:[NSString stringWithFormat:@"%ld", _curValue] forState:UIControlStateNormal];
     
 }

@@ -16,9 +16,7 @@ static NSString *CellID = @"ALCartCell";
 static NSString *SectionHeaderID = @"ALCartSectionHeader";
 static NSString *QuantityViewID = @"ALCartQuantityViewID";
 
-static NSString *kvoKey = @"curValue";
-
-@interface ALCartCollectionView () <UICollectionViewDataSource, UICollectionViewDelegate>
+@interface ALCartCollectionView () <UICollectionViewDataSource, UICollectionViewDelegate, ALCartQuantityInputViewDataDelegate>
 
 
 
@@ -34,9 +32,6 @@ static NSString *kvoKey = @"curValue";
 
 - (void)dealloc {
     
-    if (_inputView) {
-        [_inputView removeObserver:self forKeyPath:kvoKey];
-    }
     
 }
 
@@ -67,16 +62,14 @@ static NSString *kvoKey = @"curValue";
     
 }
 
-#pragma mark - kvo
+#pragma mark - cartDelegate
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context
-{
+- (void)alCartQuantityInputView:(ALCartQuantityInputView *)quantityView didChangeValue:(NSNumber *)newValue {
     
-    if ([keyPath isEqualToString:kvoKey]) {
-        _curQuantity = [change[@"new"] integerValue];
-    }
+    _curQuantity = [newValue integerValue];
     
 }
+
 
 #pragma mark - delegate
 
@@ -111,12 +104,12 @@ static NSString *kvoKey = @"curValue";
         ALCartQuantityView *temp = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:QuantityViewID forIndexPath:indexPath];
 
         temp.quantityInputView.delegate = _quantityDelegate;
+        temp.quantityInputView.dataDelegate = self;
         temp.quantityInputView.maxValue = _maxQuantity;
         temp.quantityInputView.minValue = _minQuantity;
         temp.quantityInputView.curValue = _curQuantity;
         temp.lab.text = @"数量";
 
-        [temp.quantityInputView addObserver:self forKeyPath:kvoKey options:NSKeyValueObservingOptionNew context:nil];
         _inputView = temp.quantityInputView;
         
         reusableView = temp;

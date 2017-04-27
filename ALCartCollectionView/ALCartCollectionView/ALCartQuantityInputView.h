@@ -25,10 +25,17 @@ typedef NS_ENUM(NSUInteger, ALCartQuantityType) {
 
 @end
 
+@protocol ALCartQuantityInputViewDataDelegate <NSObject>
+
+- (void)alCartQuantityInputView:(ALCartQuantityInputView *)quantityView didChangeValue:(NSNumber *)newValue;
+
+@end
+
 
 @interface ALCartQuantityInputView : UIView
 
 @property (nonatomic, weak) id<ALCartQuantityInputViewDelegate> delegate;
+@property (nonatomic, weak) id<ALCartQuantityInputViewDataDelegate> dataDelegate;
 
 @property (nonatomic, assign) NSInteger maxValue;
 @property (nonatomic, assign) NSInteger minValue;
