@@ -8,11 +8,15 @@
 
 #import "ALCartCollectionView.h"
 #import "ALCartCollectionHeaderView.h"
+#import "ALCartQuantityView.h"
 #import "ALCartCollectionViewCell.h"
 #import "ALCartCollectionViewLayout.h"
 
 static NSString *CellID = @"ALCartCell";
 static NSString *SectionHeaderID = @"ALCartSectionHeader";
+static NSString *QuantityViewID = @"ALCartQuantityViewID";
+
+static NSString *kvoKey = @"curValue";
 
 @interface ALCartCollectionView () <UICollectionViewDataSource, UICollectionViewDelegate>
 
@@ -21,6 +25,14 @@ static NSString *SectionHeaderID = @"ALCartSectionHeader";
 @end
 
 @implementation ALCartCollectionView
+
+#pragma mark - dealloc
+
+- (void)dealloc {
+    
+    [self removeObserver:self forKeyPath:kvoKey];
+    
+}
 
 #pragma mark - init
 
@@ -36,6 +48,8 @@ static NSString *SectionHeaderID = @"ALCartSectionHeader";
         
         [self registerClass:[ALCartCollectionHeaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:SectionHeaderID];
         
+        [self registerClass:[ALCartQuantityView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:QuantityViewID];
+        
         self.dataSource = self;
         self.delegate = self;
         
@@ -47,6 +61,16 @@ static NSString *SectionHeaderID = @"ALCartSectionHeader";
     
 }
 
+#pragma mark - kvo
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context
+{
+    
+    if ([keyPath isEqualToString:kvoKey]) {
+        _curQuantity = [change[@"new"] integerValue];
+    }
+    
+}
 
 #pragma mark - delegate
 
@@ -76,12 +100,30 @@ static NSString *SectionHeaderID = @"ALCartSectionHeader";
         reusableView = temp;
     }
     
+    if ([kind isEqualToString:UICollectionElementKindSectionFooter]) {
+        
+        ALCartQuantityView *temp = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:QuantityViewID forIndexPath:indexPath];
+        NSLog(@"\n%ld\n", _curQuantity);
+        temp.quantityInputView.delegate = _quantityDelegate;
+        temp.quantityInputView.maxValue = _maxQuantity;
+        temp.quantityInputView.minValue = _minQuantity;
+        temp.quantityInputView.curValue = _curQuantity;
+        temp.lab.text = @"数量";
+        NSLog(@"\n%ld\n", _curQuantity);
+        [temp.quantityInputView addObserver:self forKeyPath:kvoKey options:NSKeyValueObservingOptionNew context:nil];
+        
+        reusableView = temp;
+    }
     
     return reusableView;
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
-    return CGSizeMake(self.frame.size.width, 40);
+    return CGSizeMake(self.frame.size.width, __kALCartHeaderHeight);
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section {
+    return CGSizeMake(self.frame.size.width, __kALCartFooterHeight);
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -154,5 +196,17 @@ static NSString *SectionHeaderID = @"ALCartSectionHeader";
 
 #pragma mark - set & get
 
+- (void)setCurQuantity:(NSInteger)curQuantity {
+    
+    _curQuantity = curQuantity;
+    
+    ALCartCollectionViewLayout *layout = (ALCartCollectionViewLayout *)self.collectionViewLayout;
+    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:layout.dataArr.count - 1];
+    [UIView performWithoutAnimation:^{
+        [self reloadSections:indexSet];
+    }];
+//    [self reloadData];
+    
+}
 
 @end

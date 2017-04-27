@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		89E0ED361EB17AFD000B8036 /* ALCartQuantityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E0ED351EB17AFD000B8036 /* ALCartQuantityView.m */; };
+		89E0ED391EB18406000B8036 /* ALCartQuantityInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E0ED381EB18406000B8036 /* ALCartQuantityInputView.m */; };
 		89E8544C1EB051C6004D602E /* ALCartCollectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 89E8544B1EB051C6004D602E /* ALCartCollectionHeaderView.m */; };
 		89F06D7C1EAF3D6200CC724D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F06D7B1EAF3D6200CC724D /* main.m */; };
 		89F06D7F1EAF3D6200CC724D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 89F06D7E1EAF3D6200CC724D /* AppDelegate.m */; };
@@ -21,6 +23,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		89E0ED341EB17AFD000B8036 /* ALCartQuantityView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALCartQuantityView.h; path = ALCartCollectionView/ALCartQuantityView.h; sourceTree = "<group>"; };
+		89E0ED351EB17AFD000B8036 /* ALCartQuantityView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALCartQuantityView.m; path = ALCartCollectionView/ALCartQuantityView.m; sourceTree = "<group>"; };
+		89E0ED371EB18406000B8036 /* ALCartQuantityInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALCartQuantityInputView.h; path = ALCartCollectionView/ALCartQuantityInputView.h; sourceTree = "<group>"; };
+		89E0ED381EB18406000B8036 /* ALCartQuantityInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALCartQuantityInputView.m; path = ALCartCollectionView/ALCartQuantityInputView.m; sourceTree = "<group>"; };
 		89E8544A1EB051C6004D602E /* ALCartCollectionHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ALCartCollectionHeaderView.h; path = ALCartCollectionView/ALCartCollectionHeaderView.h; sourceTree = "<group>"; };
 		89E8544B1EB051C6004D602E /* ALCartCollectionHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ALCartCollectionHeaderView.m; path = ALCartCollectionView/ALCartCollectionHeaderView.m; sourceTree = "<group>"; };
 		89F06D771EAF3D6200CC724D /* ALCartCollectionView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ALCartCollectionView.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -102,6 +108,10 @@
 				89F06D961EAF3D9300CC724D /* ALCartCollectionView.m */,
 				89E8544A1EB051C6004D602E /* ALCartCollectionHeaderView.h */,
 				89E8544B1EB051C6004D602E /* ALCartCollectionHeaderView.m */,
+				89E0ED341EB17AFD000B8036 /* ALCartQuantityView.h */,
+				89E0ED351EB17AFD000B8036 /* ALCartQuantityView.m */,
+				89E0ED371EB18406000B8036 /* ALCartQuantityInputView.h */,
+				89E0ED381EB18406000B8036 /* ALCartQuantityInputView.m */,
 				89F06D921EAF3D8800CC724D /* ALCartCollectionViewCell.h */,
 				89F06D931EAF3D8800CC724D /* ALCartCollectionViewCell.m */,
 				89F06D981EAF3DAB00CC724D /* ALCartCollectionViewLayout.h */,
@@ -190,6 +200,8 @@
 				89F06D7C1EAF3D6200CC724D /* main.m in Sources */,
 				89E8544C1EB051C6004D602E /* ALCartCollectionHeaderView.m in Sources */,
 				89F06D941EAF3D8800CC724D /* ALCartCollectionViewCell.m in Sources */,
+				89E0ED361EB17AFD000B8036 /* ALCartQuantityView.m in Sources */,
+				89E0ED391EB18406000B8036 /* ALCartQuantityInputView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

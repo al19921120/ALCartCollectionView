@@ -10,7 +10,7 @@
 #import "ALCartCollectionView.h"
 #import "ALCartCollectionViewLayout.h"
 
-@interface ViewController () <ALCartCollectionViewDelegate>
+@interface ViewController () <ALCartCollectionViewDelegate, ALCartQuantityInputViewDelegate>
 
 @property (nonatomic, strong) ALCartCollectionView *collectView;
 
@@ -44,8 +44,13 @@
     layout.selectedTagKey = @"sel";
     layout.dataArr = arr;
     
-    _collectView = [[ALCartCollectionView alloc] initWithFrame:CGRectMake(20, 100, 300, 150) collectionViewLayout:layout];
+    CGFloat width = self.view.frame.size.width;
+    
+    _collectView = [[ALCartCollectionView alloc] initWithFrame:CGRectMake((width - 300)/2.0, 100, 300, 150) collectionViewLayout:layout];
     _collectView.cartDelegate = self;
+    _collectView.quantityDelegate = self;
+    _collectView.maxQuantity = 10;
+    _collectView.minQuantity = 2;
     [self.view addSubview:_collectView];
     
 }
@@ -56,7 +61,23 @@
     
 }
 
+- (void)alCartQuantityInputView:(ALCartQuantityInputView *)quantityView valueIsOutOfRangeWithType:(ALCartQuantityType)type {
+    
+    NSLog(@"\noutOfRange %ld\n", type);
+    
+}
 
+- (void)alCartQuantityInputView:(ALCartQuantityInputView *)quantityView willChangeValue:(NSNumber *)oldValue type:(ALCartQuantityType)type {
+    
+    NSLog(@"\noldValue:%@", oldValue);
+    if (type == ALCartQuantityTypeFree) {
+        
+        //弹窗等修改数值
+        _collectView.curQuantity = 7;
+    }
+    
+    
+}
 
 
 

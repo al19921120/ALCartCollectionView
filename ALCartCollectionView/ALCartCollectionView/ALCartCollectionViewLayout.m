@@ -9,17 +9,11 @@
 #import "ALCartCollectionViewLayout.h"
 #import "ALStringUtils.h"
 
-#define __kALCartCellXMargin 20
-
-#define __kALCartItemLineSpacing 10
-#define __kALCartItemInteritemSpacing 10
-#define __kALCartItemHeight 40
-#define __kALCartHeaderHeight 40
-
 @interface ALCartCollectionViewLayout ()
 
 @property (nonatomic, strong) NSMutableArray *attrsArr;
 @property (nonatomic, strong) NSMutableArray *attrsArrForHeader;
+@property (nonatomic, strong) NSMutableArray *attrsArrForFooter;
 
 @property (nonatomic, strong) NSMutableArray<NSMutableArray*> *strWidthArr;
 @property (nonatomic, strong) NSMutableArray<NSNumber*> *sectionTopArr;
@@ -44,7 +38,8 @@
     
     [self.attrsArr removeAllObjects];
     [self.attrsArrForHeader removeAllObjects];
-    self.sectionTopArr = [NSMutableArray arrayWithObject:@(__kALCartHeaderHeight)];//统一0和其他section
+    [self.attrsArrForFooter removeAllObjects];
+    self.sectionTopArr = [NSMutableArray arrayWithObject:@0];//统一0和其他section
     
     NSInteger section = _strWidthArr.count;
     for (NSInteger i = 0; i<section; i++) {
@@ -63,6 +58,15 @@
         NSIndexPath *indexPathForHeader = [NSIndexPath indexPathForItem:0 inSection:i];
         UICollectionViewLayoutAttributes *attrsForHeader = [self layoutAttributesForSupplementaryViewOfKind:UICollectionElementKindSectionHeader atIndexPath:indexPathForHeader];
         [self.attrsArrForHeader addObject:attrsForHeader];
+        
+        if (i == section - 1) {
+
+            NSIndexPath *indexPathForFooter = [NSIndexPath indexPathForItem:0 inSection:i];
+            UICollectionViewLayoutAttributes *attrsForFooter = [self layoutAttributesForSupplementaryViewOfKind:UICollectionElementKindSectionFooter atIndexPath:indexPathForFooter];
+            [self.attrsArrForHeader addObject:attrsForFooter];
+            
+        }
+        
         
     }
 }
@@ -84,7 +88,7 @@
 }
 
 - (CGSize)collectionViewContentSize {
-    return CGSizeMake(0, _curRowTopForSection);
+    return CGSizeMake(0, _curRowTopForSection - __kALCartHeaderHeight + __kALCartFooterHeight);
 }
 
 - (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -101,6 +105,11 @@
     }
     if (curWidth < 60) {
         curWidth = 60;
+    }
+    
+    //适配reloadSections
+    if (_sectionTopArr.count >= indexPath.section + 1 && indexPath.row == 0) {
+        _curRowTopForSection = [_sectionTopArr[indexPath.section] floatValue] + __kALCartHeaderHeight;
     }
     
     if (_curRowRemainWidth == totalRowWidth) {
@@ -128,16 +137,16 @@
         
     }
 
-//    NSLog(@"\n section=%ld, row=%ld\n right=%f", section, row, attrs.frame.origin.x+attrs.frame.size.width);
+//    NSLog(@"\n section=%ld, row=%ld\n right=%f, top=%f", section, row, attrs.frame.origin.x+attrs.frame.size.width, _curRowTopForSection);
 
-    //attrs.size
-    //section＋1
+    //section＋1，最后一个会多加1
     if (row == _strWidthArr[section].count - 1) {
         _curRowTopForSection = _curRowTopForSection + __kALCartItemHeight + __kALCartItemLineSpacing + __kALCartHeaderHeight;
         _curRowRemainWidth = totalRowWidth;
+        
     }
     if (section != 0 && row == 0) {
-        [_sectionTopArr addObject:@(_curRowTopForSection)];
+        [_sectionTopArr addObject:@(_curRowTopForSection - __kALCartHeaderHeight)];
     }
     
     return attrs;
@@ -146,19 +155,29 @@
 - (nullable UICollectionViewLayoutAttributes *)layoutAttributesForSupplementaryViewOfKind:(NSString *)elementKind atIndexPath:(NSIndexPath *)indexPath {
     
     
+    UICollectionViewLayoutAttributes *attrs = [UICollectionViewLayoutAttributes layoutAttributesForSupplementaryViewOfKind:elementKind withIndexPath:indexPath];
+    
     if (elementKind == UICollectionElementKindSectionHeader) {
         
-        //    UICollectionViewLayoutAttributes *attrs = _attrsArrForHeader[indexPath.section];
-        
-        UICollectionViewLayoutAttributes *attrs = [UICollectionViewLayoutAttributes layoutAttributesForSupplementaryViewOfKind:elementKind withIndexPath:indexPath];
         NSInteger idx = indexPath.section;
 
-        CGFloat headerTop = [_sectionTopArr[idx] floatValue] - __kALCartHeaderHeight;
+        CGFloat headerTop = [_sectionTopArr[idx] floatValue];
 
         attrs.frame = CGRectMake(0, headerTop, self.collectionView.frame.size.width, __kALCartHeaderHeight);
         
         return attrs;
     }
+    
+    if (elementKind == UICollectionElementKindSectionFooter) {
+        
+        CGFloat FooterTop = _curRowTopForSection - __kALCartHeaderHeight;
+        
+        attrs.frame = CGRectMake(0, FooterTop, self.collectionView.frame.size.width, __kALCartFooterHeight);
+        
+        return attrs;
+
+    }
+    
     
     return nil;
 
@@ -206,6 +225,14 @@
         _attrsArrForHeader = [NSMutableArray array];
     }
     return _attrsArrForHeader;
+}
+
+- (NSMutableArray *)attrsArrForFooter {
+    
+    if (!_attrsArrForFooter) {
+        _attrsArrForFooter = [NSMutableArray array];
+    }
+    return _attrsArrForFooter;
 }
 
 - (NSMutableArray<NSNumber *> *)sectionTopArr {

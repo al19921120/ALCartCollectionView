@@ -65,6 +65,7 @@
         _lab = [[UILabel alloc] init];
         _lab.font = [UIFont systemFontOfSize:14];
         _lab.translatesAutoresizingMaskIntoConstraints = NO;
+        _lab.textColor = [UIColor colorWithRed:0.61 green:0.61 blue:0.61 alpha:1];
         _lab.textAlignment = NSTextAlignmentLeft;
     }
     return _lab;

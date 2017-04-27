@@ -8,6 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+
+#define __kALCartCellXMargin 20
+
+#define __kALCartItemLineSpacing 10
+#define __kALCartItemInteritemSpacing 10
+#define __kALCartItemHeight 40
+#define __kALCartHeaderHeight 40
+#define __kALCartFooterHeight 60
+
+
 @interface ALCartCollectionViewLayout : UICollectionViewLayout
 
 @property (nonatomic, strong) NSArray *dataArr;

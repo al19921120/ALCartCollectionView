@@ -1,0 +1,134 @@
+//
+//  ALCartQuantityView.m
+//  ALCartCollectionView
+//
+//  Created by hwt on 17/4/27.
+//  Copyright © 2017年 hwt. All rights reserved.
+//
+
+#import "ALCartQuantityView.h"
+#import "ALCartQuantityInputView.h"
+
+@implementation ALCartQuantityView
+
+- (instancetype)initWithFrame:(CGRect)frame {
+    
+    if (self = [super initWithFrame:frame]) {
+        [self initUI];
+    }
+    return self;
+    
+}
+
+#pragma mark - init
+
+- (void)initUI {
+    
+    CALayer *topLine = [CALayer layer];
+    topLine.backgroundColor = [UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:1].CGColor;
+    topLine.frame = CGRectMake(20, 0, self.frame.size.width - 20, 1);
+    [self.layer addSublayer:topLine];
+    
+    [self addSubview:self.lab];
+    [self addSubview:self.quantityInputView];
+    
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.lab
+                                                     attribute:NSLayoutAttributeCenterY
+                                                     relatedBy:NSLayoutRelationEqual
+                                                        toItem:self
+                                                     attribute:NSLayoutAttributeCenterY
+                                                    multiplier:1.0
+                                                      constant:0]];
+    
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.lab
+                                                     attribute:NSLayoutAttributeLeading
+                                                     relatedBy:NSLayoutRelationEqual
+                                                        toItem:self
+                                                     attribute:NSLayoutAttributeLeading
+                                                    multiplier:1.0
+                                                      constant:20]];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.lab
+                                                     attribute:NSLayoutAttributeTrailing
+                                                     relatedBy:NSLayoutRelationEqual
+                                                        toItem:self
+                                                     attribute:NSLayoutAttributeTrailing
+                                                    multiplier:1.0
+                                                      constant:0]];
+    [self.lab addConstraint:[NSLayoutConstraint constraintWithItem:self.lab
+                                                         attribute:NSLayoutAttributeHeight
+                                                         relatedBy:NSLayoutRelationEqual
+                                                            toItem:nil
+                                                         attribute:NSLayoutAttributeNotAnAttribute
+                                                        multiplier:1.0
+                                                          constant:30]];
+    
+    
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.quantityInputView
+                                                     attribute:NSLayoutAttributeCenterY
+                                                     relatedBy:NSLayoutRelationEqual
+                                                        toItem:self
+                                                     attribute:NSLayoutAttributeCenterY
+                                                    multiplier:1.0
+                                                      constant:0]];
+
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.quantityInputView
+                                                     attribute:NSLayoutAttributeTrailing
+                                                     relatedBy:NSLayoutRelationEqual
+                                                        toItem:self
+                                                     attribute:NSLayoutAttributeTrailing
+                                                    multiplier:1.0
+                                                      constant:-10]];
+    [self.quantityInputView addConstraint:[NSLayoutConstraint constraintWithItem:self.quantityInputView
+                                                         attribute:NSLayoutAttributeWidth
+                                                         relatedBy:NSLayoutRelationEqual
+                                                            toItem:nil
+                                                         attribute:NSLayoutAttributeNotAnAttribute
+                                                        multiplier:1.0
+                                                          constant:150]];
+    [self.quantityInputView addConstraint:[NSLayoutConstraint constraintWithItem:self.quantityInputView
+                                                         attribute:NSLayoutAttributeHeight
+                                                         relatedBy:NSLayoutRelationEqual
+                                                            toItem:nil
+                                                         attribute:NSLayoutAttributeNotAnAttribute
+                                                        multiplier:1.0
+                                                          constant:40]];
+
+ 
+    
+}
+
+- (void)layoutSubviews {
+    
+    [super layoutSubviews];
+    
+    [self updateConstraintsIfNeeded];
+    
+}
+
+#pragma mark - set && get
+
+- (UILabel *)lab {
+    
+    if (!_lab) {
+        _lab = [[UILabel alloc] init];
+        _lab.font = [UIFont systemFontOfSize:14];
+        _lab.translatesAutoresizingMaskIntoConstraints = NO;
+        _lab.textColor = [UIColor colorWithRed:0.61 green:0.61 blue:0.61 alpha:1];
+        _lab.textAlignment = NSTextAlignmentLeft;
+    }
+    return _lab;
+    
+}
+
+- (ALCartQuantityInputView *)quantityInputView {
+    
+    if (!_quantityInputView) {
+        
+        _quantityInputView = [[ALCartQuantityInputView alloc] init];
+        _quantityInputView.translatesAutoresizingMaskIntoConstraints = NO;
+        
+    }
+    return _quantityInputView;
+}
+
+@end
