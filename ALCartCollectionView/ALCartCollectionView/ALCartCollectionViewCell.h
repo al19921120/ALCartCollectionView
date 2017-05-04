@@ -11,5 +11,6 @@
 @interface ALCartCollectionViewCell : UICollectionViewCell
 
 @property (nonatomic, strong) UILabel *lab;
+@property (nonatomic, strong) UIView *viewBg;
 
 @end

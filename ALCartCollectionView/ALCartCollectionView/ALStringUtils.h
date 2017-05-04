@@ -12,4 +12,6 @@
 
 + (CGSize)oneLineTextSizeWithStr:(NSString *)str withFont:(UIFont *)font;
 
++ (CGSize)sizeOfStr:(NSString *)str withFont:(UIFont *)font withMaxWidth:(CGFloat)width withLineBreakMode:(NSLineBreakMode)mode;
+
 @end

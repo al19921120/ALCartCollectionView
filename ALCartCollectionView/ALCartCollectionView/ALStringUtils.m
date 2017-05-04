@@ -25,5 +25,18 @@
     
 }
 
++ (CGSize)sizeOfStr:(NSString *)str withFont:(UIFont *)font withMaxWidth:(CGFloat)width withLineBreakMode:(NSLineBreakMode)mode {
+
+    CGSize size;
+    if (UpIOS7) {
+        size = [str boundingRectWithSize:CGSizeMake(width, 0) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: font} context:nil].size;
+    }
+    else
+    {
+        size = [str sizeWithFont:font constrainedToSize:CGSizeMake(width, CGFLOAT_MAX) lineBreakMode:mode];
+    }
+    return size;
+}
+
 
 @end

@@ -8,7 +8,6 @@
 
 #import "ALCartQuantityInputView.h"
 
-//#define __kALCartQuantityBtnValueWidth  110
 #define __kALCartQuantityBtnChangeWidth 40
 
 @interface ALCartQuantityInputView ()

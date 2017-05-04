@@ -15,16 +15,31 @@
 @property (nonatomic, strong) NSMutableArray *attrsArrForHeader;
 @property (nonatomic, strong) NSMutableArray *attrsArrForFooter;
 
-@property (nonatomic, strong) NSMutableArray<NSMutableArray*> *strWidthArr;
+@property (nonatomic, strong) NSMutableArray<NSMutableArray*> *strSizeArr;
 @property (nonatomic, strong) NSMutableArray<NSNumber*> *sectionTopArr;
 
 @end
 
 @implementation ALCartCollectionViewLayout {
+
+    CGFloat _oneLineHeight;
+    
     CGFloat _curRowRemainWidth;  //当前行x剩余
     CGFloat _curRowTopForSection;//当前行y位置
 }
 
+#pragma mark - public
+
+- (NSInteger)numOfLinesForIndexPath:(NSIndexPath *)indexPath {
+    
+    NSInteger section = indexPath.section;
+    NSInteger row = indexPath.row;
+
+    CGSize curSize = [_strSizeArr[section][row] CGSizeValue];
+    NSInteger numOfLines = roundf((curSize.height / _oneLineHeight));
+    
+    return numOfLines;
+}
 
 #pragma mark - private
 
@@ -40,12 +55,13 @@
     [self.attrsArrForHeader removeAllObjects];
     [self.attrsArrForFooter removeAllObjects];
     self.sectionTopArr = [NSMutableArray arrayWithObject:@0];//统一0和其他section
+//    self.sectionTopArr = [NSMutableArray array];
     
-    NSInteger section = _strWidthArr.count;
+    NSInteger section = _strSizeArr.count;
     for (NSInteger i = 0; i<section; i++) {
 
         
-        NSInteger row = _strWidthArr[i].count;
+        NSInteger row = _strSizeArr[i].count;
         for (NSInteger j = 0; j<row; j++) {
             
             NSIndexPath *indexPath = [NSIndexPath indexPathForItem:j inSection:i];
@@ -98,14 +114,25 @@
     NSInteger section = indexPath.section;
     NSInteger row = indexPath.row;
 
-
-    CGFloat curWidth = [_strWidthArr[section][row] floatValue];
-    if (curWidth > totalRowWidth) {
+    CGSize curSize = [_strSizeArr[section][row] CGSizeValue];
+    CGFloat curWidth = curSize.width;
+    if (_isTextOneLine && curWidth > totalRowWidth) {
         curWidth = totalRowWidth;
     }
-    if (curWidth < 60) {
-        curWidth = 60;
+    if (curWidth < __kALCartMinItemWidth) {
+        curWidth = __kALCartMinItemWidth;
     }
+    
+    CGFloat curHeight = curSize.height;
+    NSInteger numOfLines = [self numOfLinesForIndexPath:indexPath];
+    
+    if (_isTextOneLine) {
+        curHeight = __kALCartMinItemHeight;
+    }
+    else {
+        curHeight = __kALCartMinItemHeight + (numOfLines-1) * _oneLineHeight;
+    }
+    
     
     //适配reloadSections
     if (_sectionTopArr.count >= indexPath.section + 1 && indexPath.row == 0) {
@@ -114,7 +141,7 @@
     
     if (_curRowRemainWidth == totalRowWidth) {
         //每行第一个
-        attrs.frame = CGRectMake(__kALCartCellXMargin, _curRowTopForSection, curWidth, __kALCartItemHeight);
+        attrs.frame = CGRectMake(__kALCartCellXMargin, _curRowTopForSection, curWidth, curHeight);
         _curRowRemainWidth = _curRowRemainWidth - curWidth - __kALCartItemInteritemSpacing;
         
     }
@@ -122,15 +149,24 @@
         
         if (_curRowRemainWidth < __kALCartItemInteritemSpacing + curWidth) {
             //换行
-            _curRowTopForSection = _curRowTopForSection + __kALCartItemHeight + __kALCartItemLineSpacing;
+            CGFloat lastHeight = 0;
+            NSInteger numOfLines = [self numOfLinesForIndexPath:[NSIndexPath indexPathForRow:indexPath.row - 1 inSection:indexPath.section]];
+            if (_isTextOneLine) {
+                lastHeight = __kALCartMinItemHeight;
+            }
+            else {
+                lastHeight = __kALCartMinItemHeight + (numOfLines-1) * _oneLineHeight;
+            }
+            
+            _curRowTopForSection = _curRowTopForSection + lastHeight + __kALCartItemLineSpacing;
             _curRowRemainWidth = totalRowWidth;
-            attrs.frame = CGRectMake(__kALCartCellXMargin, _curRowTopForSection, curWidth, __kALCartItemHeight);
+            attrs.frame = CGRectMake(__kALCartCellXMargin, _curRowTopForSection, curWidth, curHeight);
             
         }
         else {
             
             CGFloat lastCellRight = totalRowWidth - _curRowRemainWidth + __kALCartCellXMargin;
-            attrs.frame = CGRectMake(lastCellRight, _curRowTopForSection, curWidth, __kALCartItemHeight);
+            attrs.frame = CGRectMake(lastCellRight, _curRowTopForSection, curWidth, curHeight);
         }
         
         _curRowRemainWidth = _curRowRemainWidth - curWidth - __kALCartItemInteritemSpacing;
@@ -140,12 +176,9 @@
 //    NSLog(@"\n section=%ld, row=%ld\n right=%f, top=%f", section, row, attrs.frame.origin.x+attrs.frame.size.width, _curRowTopForSection);
 
     //section＋1，最后一个会多加1
-    if (row == _strWidthArr[section].count - 1) {
-        _curRowTopForSection = _curRowTopForSection + __kALCartItemHeight + __kALCartItemLineSpacing + __kALCartHeaderHeight;
+    if (row == _strSizeArr[section].count - 1) {
+        _curRowTopForSection = _curRowTopForSection + curHeight + __kALCartItemLineSpacing + __kALCartHeaderHeight;
         _curRowRemainWidth = totalRowWidth;
-        
-    }
-    if (section != 0 && row == 0) {
         [_sectionTopArr addObject:@(_curRowTopForSection - __kALCartHeaderHeight)];
     }
     
@@ -191,7 +224,13 @@
     _dataArr = dataArr;
 
     //取得内容长度
-    _strWidthArr = [NSMutableArray array];
+    _strSizeArr = [NSMutableArray array];
+    
+    UIFont *font = [UIFont systemFontOfSize:13];
+    CGFloat totalRowWidth = self.collectionView.frame.size.width - 2*__kALCartCellXMargin;
+    
+    _oneLineHeight = [ALStringUtils sizeOfStr:@"   " withFont:font withMaxWidth:totalRowWidth withLineBreakMode:NSLineBreakByCharWrapping].height;
+    
     [_dataArr enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger section, BOOL * _Nonnull stop) {
        
         NSArray *subDataArr = [obj valueForKeyPath:self.dataListKey];
@@ -199,13 +238,19 @@
         [subDataArr enumerateObjectsUsingBlock:^(id  _Nonnull subObj, NSUInteger row, BOOL * _Nonnull stop) {
             
             NSString *cellContentStr = [subObj valueForKeyPath:self.dataContentKey];
+
+            CGSize strSize;
+            strSize = [ALStringUtils sizeOfStr:cellContentStr withFont:font withMaxWidth:totalRowWidth withLineBreakMode:NSLineBreakByCharWrapping];
+            strSize.width = strSize.width + __kALCartCellLabXMargin;
             
-            CGSize strSize = [ALStringUtils oneLineTextSizeWithStr:cellContentStr withFont:[UIFont systemFontOfSize:13]];
-            NSNumber *width = @(strSize.width + 15);
-            [tempArr addObject:width];
+            NSValue *value = [NSValue valueWithCGSize:strSize];
+            [tempArr addObject:value];
+            
+            
+            
             
         }];
-        [_strWidthArr addObject:tempArr];
+        [_strSizeArr addObject:tempArr];
         
     }];
     

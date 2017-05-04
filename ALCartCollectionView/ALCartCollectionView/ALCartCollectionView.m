@@ -137,12 +137,26 @@ static NSString *QuantityViewID = @"ALCartQuantityViewID";
     cell.lab.text = [selObj valueForKeyPath:layout.dataContentKey];
     
     if ([selectStatus isEqualToNumber:@1]) {
-        cell.lab.layer.borderColor = _selectColor.CGColor;
+        cell.viewBg.layer.borderColor = _selectColor.CGColor;
         cell.lab.textColor = _selectColor;
     }
     else {
-        cell.lab.layer.borderColor = [UIColor lightGrayColor].CGColor;
+        cell.viewBg.layer.borderColor = [UIColor lightGrayColor].CGColor;
         cell.lab.textColor = _normalColor;
+    }
+    
+    if (layout.isTextOneLine) {
+        cell.lab.numberOfLines = 1;
+    }
+    else {
+        cell.lab.numberOfLines = 0;
+    }
+    
+    if ([layout numOfLinesForIndexPath:indexPath] == 1 || layout.isTextOneLine) {
+        cell.lab.textAlignment = NSTextAlignmentCenter;
+    }
+    else {
+        cell.lab.textAlignment = NSTextAlignmentLeft;
     }
     
     
@@ -159,11 +173,19 @@ static NSString *QuantityViewID = @"ALCartQuantityViewID";
     NSArray *dataArr = [layout.dataArr[section] valueForKeyPath:layout.dataListKey];
     id selObj = dataArr[row];
     
-    
     NSNumber *selectStatus = [selObj valueForKeyPath:layout.selectedTagKey];
     if ([selectStatus isEqualToNumber:@1]) {
-        [selObj setValue:@0 forKeyPath:layout.selectedTagKey];
-        [_selectedDataArr removeObject:selObj];
+
+        
+        for (NSDictionary *tempDic in _selectedDataArr) {
+            if ([tempDic[@"Section"] isEqualToNumber:@(section)]) {
+                
+                id lastSelObj = tempDic[@"Data"];
+                [lastSelObj setValue:@0 forKeyPath:layout.selectedTagKey];
+                [_selectedDataArr removeObject:tempDic];
+                break;
+            }
+        }
         [self reloadData];
         return;
     }
